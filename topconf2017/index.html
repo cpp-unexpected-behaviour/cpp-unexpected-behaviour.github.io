@@ -359,7 +359,8 @@
                         int main()
                         {
                             std::vector<int> my_vec{1,2,3,4};
-                            std::find_if(my_vec.begin(), my_vec.end(), f);
+                            // doesn't compile
+                            std::find_if(my_vec.begin(), my_vec.end(), isOne);
                         }
                         ```
                         </textarea>
@@ -561,17 +562,20 @@
                             system("rm -rf /");
                         }
                         void initialize() {
-                          function = evil_function;
+                            function = evil_function;
                         }
                         void call() {
-                          function();
+                            function();
+                        }
+                        int main() {
+                            call();
                         }
                         ```
                         </textarea>
                     </section>
                     <section data-markdown>
                         <textarea data-template>
-                        - The compiler can optimize this to:
+                        - The <a href="https://godbolt.org/g/4JaXjB" target="_blank"z>compiler can optimize this to</a>:
 
                         ```cpp
                         void call() {
