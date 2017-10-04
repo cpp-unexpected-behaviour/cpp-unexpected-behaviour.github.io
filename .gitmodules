@@ -1,0 +1,3 @@
+[submodule "topconf2017/revealjs"]
+	path = topconf2017/revealjs
+	url = https://github.com/hakimel/reveal.js.git

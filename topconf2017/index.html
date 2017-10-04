@@ -1,0 +1,741 @@
+<!doctype html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+
+        <title>C++: Unexpected Behaviour</title>
+
+        <link rel="stylesheet" href="revealjs/css/reveal.css">
+        <link rel="stylesheet" href="revealjs/css/theme/white.css">
+
+        <!-- Theme used for syntax highlighting of code -->
+        <link rel="stylesheet" href="revealjs/lib/css/zenburn.css">
+        <link rel="stylesheet" href="css/font-awesome.min.css">
+
+        <link rel="stylesheet" href="css/custom.css">
+    </head>
+    <body>
+        <div class="reveal">
+            <div class="slides">
+                <section data-background-image="img/bg1_bbg.png">
+                    <h2>C++: Unexpected Behaviour</h2>
+                    <div>
+                        <h4 class="author1">Antonio Mallia</h4>
+                        <h4 class="author2">Jaime Alonso</h4>
+                    </div>
+                </section>
+                <section data-background-image="img/bg1_bbg.png">
+                    <h2>About Us</h2>
+                    <section data-background-image="img/bg1_bbg.png">
+                    <div class="photo-block">
+                    <div class="author1">
+                        <h3><strong>Antonio</strong> Mallia</h3>
+                        <img class="user" src="img/antonio.jpg" />
+                    </div>
+                    <div class="author2">
+                        <h3><strong>Jaime</strong> Alonso</h3>
+                        <img class="user" src="img/jaime.jpg" />
+                    </div>
+                    </div>
+                    <span class="job-title">Software Engineers @ Bloomberg</span>
+                    <div class="contacts-block">
+                    <div class="author1">
+                        <p class="contacts">
+                            <i class="fa fa-envelope"></i> <a href="mailto:me@antoniomallia.it">me@antoniomallia.it</a><br>
+                            <i class="fa fa-twitter"></i> <a href="https://twitter.com/antonio_mallia">@antonio_mallia</a><br>
+                            <i class="fa fa-link"></i> <a href="http://www.antoniomallia.it">www.antoniomallia.it</a>
+                        </p>
+
+                    </div>
+
+                    <div class="author2">
+                        <p class="contacts">
+                            <a href="mailto:jaimealonsolorenzo@gmail.com">jaimealonsolorenzo@gmail.com</a> <i class="fa fa-envelope"></i><br>
+                            <a href="https://github.com/jaimealonso">jaimealonso</a> <i class="fa fa-github"></i> <br>
+                            <a href="https://www.linkedin.com/in/jaimealonsolorenzo">www.linkedin.com/in/jaimealonsolorenzo</a> <i class="fa fa-linkedin"></i>
+                        </p>
+                    </div>
+                    </div>
+                    </section>
+                </section>
+                <section data-background-image="img/bg1_bbg.png">
+                    <h2>Bloomberg</h2>
+                    <section data-background-image="img/bg1_bbg.png">
+                        <h4>Bloomberg is just finance, right?</h4>
+                        <ul>
+                            <li>A technology company with 5000+ engineers</li>
+                            <li>Not only C++, also JS, Python, Go, Java, and Haskell</li>
+                            <li>Increasing use and contribution to open source</li>
+                        </ul>
+                    </section>
+                </section>
+                <section>
+                        <h2>Motivation</h2>
+                        <section data-markdown>
+                            <textarea data-template>
+                            - C++ can be <strong>unintuitive</strong> for both beginners and professionals
+                            - Assumptions on code behaviour can lead to <strong>bugs</strong>
+                            - Knowing some of them will make you be <strong>more careful</strong> when you encounter others
+                            - Some of them are really <strong>funny</strong> or incredible
+                            </textarea>
+                        </section>
+                    </textarea>
+                </section>
+                <section>
+                    <h2>Definitions</h2>
+                        <section>
+                            <h4 style="text-decoration: underline"> UB != Unexpected Behaviour</h4>
+                            <p class="fragment">
+                               Let's abbreviate Unexpected Behaviour as <strong>UXB</strong>
+                            </p>
+                            <blockquote class="fragment">
+                                UXB occurs when a program does not perform what the programmer initially intended and instead causes an undesired result.
+                            </blockquote>
+                        </section>
+                </section>
+                <section>
+                    <h2>Arrays</h2>
+                    <pre><code class="hljs cpp" data-trim data-noescape>
+                    int a[10];
+                    ...
+                    a[5] = 1;
+
+                    <span class="fragment" data-fragment-index="1">5[a] = 1;</span>
+                    </code></pre>
+                    <span class="fragment" data-fragment-index="2">
+                    The C standard defines the [] operator as   follows:
+                    <pre><code class="hljs cpp" data-trim data-noescape>
+                    a[5] == *(a + 5)
+                    </code></pre>
+                    </span>
+                    <span class="fragment" data-fragment-index="3">
+                    Therefore 5[a] will evaluate to:
+                    <pre><code class="hljs cpp" data-trim data-noescape>*(5 + a) <span class="fragment" data-fragment-index="4">== *(a + 5)</span></code></pre>
+                    </span>
+                </section>
+                <section>
+                    <h2>Encapsulation</h2>
+                    <section>
+                        <blockquote cite="https://en.wikipedia.org/wiki/Encapsulation_(computer_programming)">
+                            &ldquo; Encapsulation is used to hide the values or state of a structured data object inside a class, <strong>preventing unauthorized parties' direct access</strong> to them.&rdquo; <br> Wikipedia
+                        </blockquote>
+                    </section>
+                    <section>
+                        <pre><code class="hljs cpp" data-trim data-noescape>
+                        class Account {
+                        public:
+                            virtual void deposit(int amount) {
+                                accountBalance += amount;
+                            }
+                            virtual void balance() {
+                                std::cout << "Balance: " << accountBalance << std::endl;
+                            }
+                        private:
+                            int accountBalance = 0;
+                        };
+                        <span class="fragment">
+                        class EmployeeAccount : public Account {
+                        <mark>private:</mark>
+                            virtual void paySalary() { accountBalance += 1000; }
+                        };</span>
+                        </code></pre>
+                    </section>
+                    <section>
+                        <pre><code class="hljs cpp" data-trim data-noescape>
+                        int main()
+                            Account a;
+                            a.deposit(100);
+                            a.balance(); // 100
+
+                            EmployeeAccount e;
+                            e.paySalary(); // won't compile
+                        }
+                        </code></pre>
+                    </section>
+                    <section>
+                        <pre><code class="hljs cpp" data-trim data-noescape>
+                        class Account {
+                        public:
+                            virtual void deposit(int amount) {
+                                accountBalance += amount;
+                            }
+                            virtual void balance() {
+                                std::cout << "Balance: " << accountBalance << std::endl;
+                            }
+                            <span class="fragment">virtual void paySalary() {}</span>
+                        private:
+                            int accountBalance = 0;
+                        };
+                        class EmployeeAccount : public Account {
+                        private:
+                            virtual void paySalary() { accountBalance += 1000; }
+                        };
+                        </code></pre>
+                    </section>
+                    <section>
+                        <pre><code class="hljs cpp" data-trim data-noescape>
+                        int main()
+                            Account a;
+                            a.deposit(100);
+                            a.balance(); // 100
+
+                            EmployeeAccount e;
+                            <span class="fragment current-visible">
+                            e.paySalary(); // won't compile
+                            </span>
+                            <span class="fragment">EmployeeAccount e;
+                            Account* ea = &e;
+                            ea->paySalary();
+                            a.balance(); // 1000</span>
+                        }
+                        </code></pre>
+                    </section>
+                    <section data-background-image="img/money.gif">
+                        <pre class="bottom"><code class="hljs cpp" data-trim data-noescape>
+                            while(true){
+                                ea->paySalary();
+                            }
+                        </code></pre>
+                    </section>
+                </section>
+                <section>
+                    <h2>The long arrow operator</h2>
+                    <section>
+                        <pre><code class="hljs cpp" data-trim data-noescape>
+                            size_t x = 10;
+                            while(0<--x);
+                            std::cout << x << std::endl; <span class="fragment"> // 0 </span>
+                        </code></pre>
+                           <p class="fragment">--> is not an operator</p>
+                           <span class="fragment">
+                            It is equivalent to:
+                           <pre><code class="hljs cpp" data-trim data-noescape>
+                            while(0 < (--x));
+                            </code></pre>
+                            </span>
+                    </section>
+                    <section>
+                        <h3>What if we make it longer?</h3>
+                        <pre><code class="hljs cpp" data-trim data-noescape>
+                            wp----->size();
+                        </code></pre>
+                        <p class="fragment">The long arrow is not a single operator, but a combination of multiple operators.</p>
+                        <span class="fragment">Here it is a normal -> operator and the postfix decrement operator --
+                        <pre><code class="hljs cpp" data-trim data-noescape>
+                            ((wp--)--)->length();
+                        </code></pre>
+                        </span>
+                        <p class="fragment">
+                            <strong>How can we overload them?</strong>
+                        </p>
+                    </section>
+                    <section data-markdown>
+                        <textarea data-template>
+                        ```cpp
+                        template <typename T>
+                        class wrap {
+                        public:
+                            T* operator->()    { return &t; }
+                            T& operator--(int) {  return t; }
+
+                        private:
+                            T t;
+                        };
+                        ```
+                        <p class="fragment">
+                        This can be useful for dereferencing nested pointer-like structures as unique_ptr, shared_ptr or optional.
+                        </p>
+                        <p class="fragment">
+                        It can become potentially unlimitedly long.<i class="fa fa-frown"></i>
+                        </p>
+                        </textarea>
+                    </section>
+                    <section data-markdown>
+                        <textarea data-template>
+                        We can use C++17 'if constexpr' feature to keep unwrapping until we get the value.
+                        ```cpp
+                        template <typename T>
+                        struct wrap {
+                            auto operator->() {
+                                if constexpr (is_wrap_v<T>) {
+                                    return value.operator->();
+                                } else {
+                                    return &value;
+                                }
+                            }
+
+                            T value;
+                        };
+                        ```
+                        </textarea>
+                    </section>
+                    <section data-markdown>
+                        <textarea data-template>
+                        The definition of 'is_wrap_v' is as simple as this one.
+                        ```cpp
+                        template <typename T>
+                        struct wrap;
+
+                        template <typename T>
+                        constexpr auto is_wrap_v = false;
+
+                        template <typename T>
+                        constexpr auto is_wrap_v<wrap<T>> = true;
+                        ```
+                        </textarea>
+                    </section>
+
+                </section>
+                <section>
+                    <h2>Implicit conversions</h2>
+                    <section>
+                        It can be a double-edged sword
+                        <pre><code class="hljs cpp" data-trim data-noescape>
+                        void greeting(std::string str) {
+                            std::cout << str << std::endl;
+                        }
+                        <span class="fragment" data-fragment-index="2">
+                        void greeting(bool german) {
+                            if(german)
+                                std::cout << "Hallo Welt!" << std::endl;
+                            else
+                                std::cout << "Hello World!" << std::endl;
+                        }
+                        </span>
+                        <span class="fragment" data-fragment-index="1">
+                        greeting("Ciao mondo!"); // Ciao mondo!
+                        </span>
+                        <span class="fragment" data-fragment-index="3">
+                        greeting("Ciao mondo!"); <span class="fragment" data-fragment-index="3">// Hallo Welt!</span>
+                        </span>
+                        </code></pre>
+                    </section>
+                    <section data-markdown>
+                        <textarea data-template>
+                        - Certain types of conversions take precedence
+
+                        - Standard conversions take precedence over user-defined conversions
+
+                        - `const char*` to `bool` over `const char*` to `std::string`
+                        </textarea>
+                    </section>
+                    <section data-markdown>
+                        <textarea data-template>
+                        - What about this?
+
+                        ```cpp
+                        std::variant<int, bool, std::string> a = "Hello World!";
+
+                        // What is the underlying type of `a`?
+                        ```
+                        </textarea>
+                    </section>
+                    <section data-markdown>
+                        <textarea data-template>
+                        - `a` contains bool!
+
+                        - We can prevent this from happening by using C++14's string literals
+
+                        ```cpp
+                        std::variant<int, bool, std::string> a = "Hello World!"s;
+
+                        // Now a has the expected type
+                        ```
+                        </textarea>
+                    </section>
+                </section>
+                <section>
+                    <h2>Overload resolution</h2>
+                    <section data-markdown>
+                        <textarea data-template>
+                        ```cpp
+                        #include <vector>
+                        #include <algorithm>
+
+                        bool f(int a) { return a == 1; }
+                        bool f(double b) { return false; }
+
+                        int main()
+                        {
+                            std::vector<int> my_vec{1,2,3,4};
+                            std::find_if(my_vec.begin(), my_vec.end(), f);
+                        }
+                        ```
+                        </textarea>
+                    </section>
+                    <section data-markdown>
+                        <textarea data-template>
+                        - `std::find_if` and other functions in `<algorithm>` look like this:
+
+                        ```cpp
+                        template<typename It, typename Predicate>
+                        It find_if(It begin, It end, Predicate pred);
+                        ```
+
+                        - The compiler can't resolve the predicate overload
+                        </textarea>
+                    </section>
+                    <section data-markdown>
+                        <textarea data-template>
+                        - Type deduction can help us
+
+                        ```cpp
+                        struct wrapper
+                        {
+                            template<typename T>
+                            bool operator()(T&& a)
+                            {
+                                return f(a);
+                            }
+                        };
+
+                        std::find_if(my_vec.begin(), my_vec.end(), wrapper());
+
+                        // better yet
+
+                        std::find_if(my_vec.begin(), my_vec.end(),
+                                     [](auto&& a){ return f(a); });
+                        ```
+                        </textarea>
+                    </section>
+                </section>
+                <section>
+                    <h2>Overload resolution II</h2>
+                    <section data-markdown>
+                        <textarea data-template>
+                        ```cpp
+                        struct StringConverter
+                        {
+                            std::string convert(int num);
+                        };
+
+                        struct DoubleStringConverter : StringConverter
+                        {
+                            std::string convert(double num);
+                        };
+
+                        int main()
+                        {
+                            DoubleStringConverter dc;
+                            StringConverter* c = &dc;
+                            dc.convert(1);
+                            c->convert(1);
+                        }
+                        ```
+                        </textarea>
+                    </section>
+                    <section data-markdown>
+                        <textarea data-template>
+                        ```cpp
+                        dc.convert(1); // calls convert(double)
+                        c->convert(1); // calls convert(int)
+                        ```
+
+                        - The overloaded function in the derived class "hides" the function in the base class
+                        - Overload resolution only takes place within the current scope (i.e. the derived or the base class)
+                        </textarea>
+                    </section>
+                    <section data-markdown>
+                        <textarea data-template>
+                        - How can we solve this?
+                        - We should be explicit about what overloads we want in the derived class
+
+                        ```cpp
+                        struct DoubleStringConverter : StringConverter
+                        {
+                            using StringConverter::convert;
+                            std::string convert(double num);
+                        };
+                        //...
+
+                        dc.convert(1); // now calls the right overload
+                        ```
+                        </textarea>
+                    </section>
+                </section>
+                <section>
+                    <h2>Ternary operator</h2>
+                    <section data-markdown>
+                        <textarea data-template>
+                            - The ternary operator works differently in C and C++
+                            - What does this do?
+
+                            ```cpp
+                            int a = 0, b = 0;
+                            long c = 0;
+                            (a == 0 ? a : b) = 1;
+                            (a == 0 ? a : c) = 2;
+                            ```
+                        </textarea>
+                    </section>
+                    <section data-markdown>
+                        <textarea data-template>
+                            ```cpp
+                            (a == 0 ? a : b) = 1 // works!
+                            (a == 0 ? a : c) = 2 // error: lvalue required
+                            ```
+                            
+                            - In C++, a ternary operator can be an lvalue, if both sides share the same type
+                            - In C, it cannot be an lvalue
+                        </textarea>
+                    </section>
+                </section>
+                <section>
+                    <h2>Optimizations and UXB</h2>
+                    <section data-markdown>
+                        <textarea data-template>
+                        - Compiler optimizations may alter the behaviour of our code (e.g., by removing unused code, changing default values of variables)
+                        - We will explore some of these examples
+                        </textarea>
+                    </section>
+                </section>
+                <section>
+                    <h2>Optimizations: code elimination</h2>
+                    <section data-markdown>
+                        <textarea data-template>
+                        ```cpp
+                        bool is_null(Resource* resource_ptr){
+                            auto handle = resource_ptr->handle;
+                            if (!resource_ptr)
+                                return true;
+                            return false;
+                        }
+
+                        int main()
+                        {
+                            Resource* my_resource = nullptr;
+                            std::cout << std::boolalpha <<
+                                         is_null(my_resource) << '\n';
+                        }
+                        ```
+                        </textarea>
+                    </section>
+                    <section data-markdown>
+                        <textarea data-template>
+                        - With optimizations enabled (-O1 ...), the output is:
+
+                        ```text
+                        false
+                        ```
+
+                        - The unused variable where it is dereferenced was removed
+                        - The null-check was also removed, the compiler assumed the pointer to be not null
+                        </textarea>
+                    </section>
+                </section>
+                <section>
+                    <h2>Optimizations: simplifications</h2>
+                    <section data-markdown>
+                        <textarea data-template>
+                        - Sometimes, optimizations may seem to help us
+
+                        ```cpp
+                        #include <limits>
+                        #include <iostream>
+
+                        bool greater_than(int a){
+                            return a + 1 > a;
+                        }
+
+                        int main()
+                        {
+                            std::cout << std::boolalpha <<
+                                greater_than(std::numeric_limits<int>::max()) << '\n';
+                        }
+                        ```
+                        </textarea>
+                    </section>
+                    <section data-markdown>
+                        <textarea data-template>
+                        - The compiler can optimize `a + 1 > a` to `true`
+                        - The UB of signed integer overflow is avoided (in this case)
+                        </textarea>
+                    </section>
+                </section>
+                <section>
+                    <h2>Optimizations: static initialization</h2>
+                    <section data-markdown>
+                        <textarea data-template>
+                        - Sometimes, it can be dangerous
+
+                        ```cpp
+                        static void (*function)();
+                        void evil_function() {
+                            system("rm -rf /");
+                        }
+                        void initialize() {
+                          function = evil_function;
+                        }
+                        void call() {
+                          function();
+                        }
+                        ```
+                        </textarea>
+                    </section>
+                    <section data-markdown>
+                        <textarea data-template>
+                        - The compiler can optimize this to:
+
+                        ```cpp
+                        void call() {
+                          system("rm -rf /");
+                        }
+                        ```
+                        </textarea>
+                    </section>
+                    <section data-markdown>
+                        <textarea data-template>
+                        - Optimizations can also introduce other unexpected problems
+                            - Optimizing away data reads of variables (use `volatile`)
+                            - Not zero-initializing uninitialized integers
+
+                        - Many of these can be found with compiler warnings
+                        </textarea>
+                    </section>
+                </section>
+                <section>
+                    <h2>Copy elision</h2>
+                    <section data-markdown>
+                        <textarea data-template>
+                        ```cpp
+                        struct A {
+                            A(){ std::cout << "Default ctor\n"; }
+                            A(const A&){ std::cout << "Copy ctor\n"; }
+                            A(A&&){ std::cout << "Move ctor\n"; }
+                            A& operator=(const A&){
+                                std::cout << "Assignment\n";
+                                return *this;
+                            }
+                            A& operator=(A&&){
+                                std::cout << "Move assignment\n";
+                                return *this;
+                            }
+                        };
+                        ```
+                        </textarea>
+                    </section>
+                    <section data-markdown>
+                        <textarea data-template>
+                        - What will happen?
+
+                        ```cpp
+                        A create_a() { return A{}; }
+                        const A create_a2() { return A{}; }
+                        A create_a3(){ A tmp; return tmp; }
+                        // ...
+
+                        A a = create_a();
+                        A b = create_a2();
+                        A c = create_a3();
+                        ```
+                        </textarea>
+                    </section>
+                    <section data-markdown>
+                        <textarea data-template>
+                        ```text
+                        Default ctor
+                        Default ctor
+                        Default ctor
+                        ```
+
+                        - As expected, copy elision/RVO takes place
+                        - The compiler constructs the temporary directly in the function's return value
+                        - The copy into a/b/c is also elided
+                        </textarea>
+                    </section>
+                    <section data-markdown>
+                        <textarea data-template>
+                        - What about this?
+
+                        ```cpp
+                        A create_a4(int a)
+                        {
+                            A tmp;
+
+                            if (a < 0)
+                                return tmp;
+                            else
+                                return A{};
+                        }
+                        // ...
+
+                        A d = create_a4(-1);
+                        A e = create_a4(1);
+                        ```
+                        </textarea>
+                    </section>
+                    <section data-markdown>
+                        <textarea data-template>
+                        ```text
+                        Default ctor
+                        Move ctor
+                        Default ctor
+                        Default ctor
+                        ```
+
+                        - The compiler did not optimize the move in the first case
+                        </textarea>
+                    </section>
+                </section>
+                <section>
+                    <h2>Conclusion</h2>
+                    <section data-markdown>
+                        <textarea data-template>
+                        - Unexpected behaviour can be:
+                            - Compiler optimizations
+                            - Obscure standard specifications
+
+                        - Or it can be:
+                            - Implementation defined
+                            - Unspecified
+                            - Undefined
+                        </textarea>
+                    </section>
+                    <section data-markdown>
+                        <textarea data-template>
+                        - How do we prevent this?
+                            - Enable compiler warnings and address them (`-Wall -Wextra`)
+                            - Use static analysis regularly (as part of CI)
+                        - Sometimes it's not enough!
+                        </textarea>
+                    </section>
+                    <section data-markdown>
+                        <textarea data-template>
+                        - Many of the aforementioned examples *don't* rely on undefined behaviour
+                        - Such cases can only be detected through thorough testing
+                        - Don't rely on compilers/analyzers detecting everything
+                        </textarea>
+                    </section>
+                </section>
+                <section data-background-image="img/bg1_bbg.png">
+                <h2>Where to find these slides</h2>
+                    <p style="font-size: 40px;">http://cpp-unexpected-behaviour.github.io/topconf2017</p>
+                    <img style="width: 35%;" src="img/qr-topconf.jpg" />
+                </section>
+                <section data-background-image="img/bg1_bbg.png">
+                <h2>Thank you!</h2>
+                </section>
+
+            </div>
+        </div>
+
+        <script src="revealjs/lib/js/head.min.js"></script>
+        <script src="revealjs/js/reveal.js"></script>
+
+        <script>
+            // More info about config & dependencies:
+            // - https://github.com/hakimel/reveal.js#configuration
+            // - https://github.com/hakimel/reveal.js#dependencies
+            Reveal.initialize({
+                history: true,
+                dependencies: [
+                    { src: 'revealjs/plugin/markdown/marked.js' },
+                    { src: 'revealjs/plugin/markdown/markdown.js' },
+                    { src: 'revealjs/plugin/notes/notes.js', async: true },
+                    { src: 'revealjs/plugin/highlight/highlight.js', async: true, callback: function() { hljs.initHighlightingOnLoad(); } }
+                ]
+            });
+        </script>
+    </body>
+</html>
