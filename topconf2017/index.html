@@ -247,7 +247,7 @@
                         This can be useful for dereferencing nested pointer-like structures as unique_ptr, shared_ptr or optional.
                         </p>
                         <p class="fragment">
-                        It can become potentially unlimitedly long.<i class="fa fa-frown"></i>
+                        It can become potentially limitless.<i class="fa fa-frown"></i>
                         </p>
                         </textarea>
                     </section>
@@ -353,8 +353,8 @@
                         #include <vector>
                         #include <algorithm>
 
-                        bool f(int a) { return a == 1; }
-                        bool f(double b) { return false; }
+                        bool isOne(int a) { return a == 1; }
+                        bool isOne(double b) { return a == 1.0; }
 
                         int main()
                         {
@@ -376,28 +376,24 @@
                         - The compiler can't resolve the predicate overload
                         </textarea>
                     </section>
-                    <section data-markdown>
-                        <textarea data-template>
-                        - Type deduction can help us
-
-                        ```cpp
+                    <section>
+                        Type deduction can help us
+                        <pre><code class="hljs cpp" data-trim data-noescape>
                         struct wrapper
                         {
-                            template<typename T>
+                            template&lt;typename T&gt;
                             bool operator()(T&& a)
                             {
-                                return f(a);
+                                return isOne(a);
                             }
                         };
 
                         std::find_if(my_vec.begin(), my_vec.end(), wrapper());
-
-                        // better yet
-
+                        <span class="fragment">
                         std::find_if(my_vec.begin(), my_vec.end(),
-                                     [](auto&& a){ return f(a); });
-                        ```
-                        </textarea>
+                                     [](auto&& a){ return isOne(a); });
+                        </span>
+                        </code></pre>
                     </section>
                 </section>
                 <section>
@@ -475,7 +471,7 @@
                             (a == 0 ? a : b) = 1 // works!
                             (a == 0 ? a : c) = 2 // error: lvalue required
                             ```
-                            
+
                             - In C++, a ternary operator can be an lvalue, if both sides share the same type
                             - In C, it cannot be an lvalue
                         </textarea>
