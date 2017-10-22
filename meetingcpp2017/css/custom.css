@@ -1,0 +1,98 @@
+.credits {
+    display: block;
+    width: auto;
+    height: auto;
+}
+.credits img {
+    margin: 0px !important;
+    border: 0px !important;
+    box-shadow: none !important;
+    background: none !important;
+}
+
+.reveal h1, .reveal h2, .reveal h3, .reveal h4, .reveal h5, .reveal h6 {
+    font-style:normal !important;
+    visibility:visible !important;
+}
+
+.reveal h1{
+    line-height:1.052734 !important;
+}
+.reveal h2{
+    line-height:1.053711 !important;
+}
+.reveal h3{
+    font-size: 1em !important;
+    line-height:0.938477 !important;
+}
+.reveal h4{
+    line-height:0.740234 !important;
+    color: black !important;
+}
+.reveal h5{
+    line-height:0.722656 !important;
+    color: black !important;
+    font-weight:normal !important;
+
+}
+.author1 {
+    float: left;
+}
+.author2 {
+    float: right;
+}
+img.user {
+  display: inline-block;
+  width: 150px;
+  height: 150px;
+  border-radius: 50%;
+
+  background-repeat: no-repeat;
+  background-position: center center;
+  background-size: cover;
+}
+.author1 .contacts {
+    text-align: left;
+}
+
+.photo-block{
+    display: inline-block;
+    width: inherit;
+    line-height: 0 !important;
+    margin: -30px 0px !important;
+
+}
+.contacts-block{
+    float:left;
+    width: inherit;
+    margin: -30px 0px !important;
+}
+
+span.job-title {
+    text-align: center;
+    font-style: italic;
+    font-size: 0.8em !important;
+}
+
+.author2 .contacts {
+    text-align: right;
+}
+.reveal .contacts {
+    line-height: 34px !important;
+    font-size: 24px !important;
+}
+.reveal .contacts a {
+    color: black;
+}
+.reveal blockquote{
+    width:auto !important;
+    background: #f1f1f1 !important;
+}
+
+.reveal pre code {
+    max-height: none !important;
+}
+
+pre.bottom {
+    margin-top: 250px !important
+}
