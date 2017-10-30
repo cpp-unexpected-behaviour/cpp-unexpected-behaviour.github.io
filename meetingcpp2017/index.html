@@ -73,7 +73,6 @@
                 <section>
                     <h2>Bloomberg</h2>
                     <section>
-                        <h4>Bloomberg is just finance, right?</h4>
                         <ul>
                             <li>A technology company with 5000+ engineers</li>
                             <li>Not only C++, also JS, Python, Go, Java, and Haskell</li>
@@ -88,22 +87,34 @@
                             - C++ can be <strong>unintuitive</strong> for both beginners and professionals
                             - Assumptions on code behaviour can lead to <strong>bugs</strong>
                             - Knowing some of them will make you be <strong>more careful</strong> when you encounter others
-                            - Some of them are really <strong>funny</strong> or incredible
                             </textarea>
                         </section>
                     </textarea>
                 </section>
                 <section>
                     <h2>Definitions</h2>
-                        <section>
-                            <h4 style="text-decoration: underline"> UB != Unexpected Behaviour</h4>
-                            <p class="fragment">
-                               Let's abbreviate Unexpected Behaviour as <strong>UXB</strong>
-                            </p>
-                            <blockquote class="fragment">
-                                UXB occurs when a program does not perform what the programmer initially intended and instead causes an undesired result.
-                            </blockquote>
-                        </section>
+                    <section>
+                        <ul>
+                            <li>The behaviour of well-formed C++ programs can fall under the following categories:</li>
+                            <ul>
+                                <li>Implementation-defined</li>
+                                <li>Unspecified</li>
+                                <li>Undefined</li>
+                            </ul>
+                            <li class="fragment">Any of these can result in unexpected behaviour!</li>
+                        </ul>
+                    </section>
+                    <section>
+                        <p class="fragment">
+                           Let's abbreviate Unexpected Behaviour as <strong>UXB</strong>
+                        </p>
+                        <blockquote class="fragment">
+                            UXB occurs when a program does not perform what the programmer initially intended and instead causes an undesired result.
+                        </blockquote>
+                    </section>
+                    <section>
+                        <img src="img/behaviours.png"/>
+                    </section>
                 </section>
                 <section>
                     <h2>Arrays</h2>
@@ -116,7 +127,7 @@
                         <span class="fragment" data-fragment-index="1">5[a] = 1;</span>
                         </code></pre>
                         <span class="fragment" data-fragment-index="2">
-                        The C standard defines the [] operator as   follows:
+                        The C standard defines the [] operator as follows:
                         <pre><code class="hljs cpp" data-trim data-noescape>
                         a[5] == *(a + 5)
                         </code></pre>
@@ -324,14 +335,12 @@
                         </span>
                         </code></pre>
                     </section>
-                    <section data-markdown>
-                        <textarea data-template>
-                        - Certain types of conversions take precedence
-
-                        - Standard conversions take precedence over user-defined conversions
-
-                        - `const char*` to `bool` over `const char*` to `std::string`
-                        </textarea>
+                    <section>
+                        <ul>
+                            <li>Certain types of conversions take precedence</li>
+                            <li>Standard conversions take precedence over user-defined conversions</li>
+                            <li>`const char*` to `bool` over `const char*` to `std::string`</li>
+                        </ul>
                     </section>
                     <section data-markdown>
                         <textarea data-template>
@@ -344,17 +353,16 @@
                         ```
                         </textarea>
                     </section>
-                    <section data-markdown>
-                        <textarea data-template>
-                        - `a` contains bool!
-
-                        - We can prevent this from happening by using C++14's string literals
-
-                        ```cpp
-                        std::variant<int, bool, std::string> a = "Hello World!"s;
+                    <section>
+                        <ul>
+                            <li>a contains bool!
+                            <li class="fragment">We can prevent this from happening by using C++14's string literals</li>
+                        </ul>
+                        <pre class="fragment"><code class="hljs cpp" data-trim data-noescape>
+                        std::variant&ltint, bool, std::string&gt a = "Hello World!"s;
 
                         // Now a has the expected type
-                        ```
+                        </code></pre>
                         </textarea>
                     </section>
                 </section>
@@ -597,14 +605,14 @@
                         ```
                         </textarea>
                     </section>
-                    <section data-markdown>
-                        <textarea data-template>
-                        - Optimizations can also introduce other unexpected problems
-                            - Optimizing away data reads of variables (use `volatile`)
-                            - Not zero-initializing uninitialized integers
-
-                        - Many of these can be found with compiler warnings
-                        </textarea>
+                    <section>
+                        <ul>
+                            <li>Optimizations can also introduce other unexpected problems</li>
+                            <ul>
+                                <li>Optimizing away data reads of variables (use `volatile`)</li>
+                                <li>Not zero-initializing uninitialized integers</li>
+                            </ul>
+                        <li>Many of these can be found with compiler warnings</li>
                     </section>
                 </section>
                 <section>
@@ -693,25 +701,24 @@
                 </section>
                 <section>
                     <h2>Conclusion</h2>
-                    <section data-markdown>
-                        <textarea data-template>
-                        - Unexpected behaviour can be:
-                            - Compiler optimizations
-                            - Obscure standard specifications
-
-                        - Or it can be:
-                            - Implementation defined
-                            - Unspecified
-                            - Undefined
-                        </textarea>
+                    <section>
+                        <ul>
+                            <li>Unexpected behaviour can be:</li>
+                            <ul>
+                                <li>Compiler optimizations</li>
+                                <li>Obscure standard specifications</li>
+                            </ul>
+                        </ul>
                     </section>
-                    <section data-markdown>
-                        <textarea data-template>
-                        - How do we prevent this?
-                            - Enable compiler warnings and address them (`-Wall -Wextra`)
-                            - Use static analysis regularly (as part of CI)
-                        - Sometimes it's not enough!
-                        </textarea>
+                    <section>
+                        <ul>
+                        <li>How do we prevent this?</li>
+                            <ul>
+                                <li>Enable compiler warnings and address them (`-Wall -Wextra`)</li>
+                                <li>Use static analysis regularly (as part of CI)</li>
+                            </ul>
+                        <li class="fragment">Sometimes it's not enough!</li>
+                        </ul>
                     </section>
                     <section data-markdown>
                         <textarea data-template>
@@ -723,8 +730,8 @@
                 </section>
                 <section>
                 <h2>Where to find these slides</h2>
-                    <p style="font-size: 40px;">http://cpp-unexpected-behaviour.github.io/topconf2017</p>
-                    <img style="width: 35%;" src="img/qr-topconf.jpg" />
+                    <p style="font-size: 30px;">http://cpp-unexpected-behaviour.github.io/meetingcpp2017</p>
+                    <img style="width: 35%; display: block; margin: 0 auto;" src="img/qr-meetingcpp.png" />
                 </section>
                 <section>
                 <h2>Thank you!</h2>

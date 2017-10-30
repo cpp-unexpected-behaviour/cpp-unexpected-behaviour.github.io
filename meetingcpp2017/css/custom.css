@@ -52,6 +52,7 @@ img.user {
   background-size: cover;
 }
 .author1 .contacts {
+    padding-top: 40px !important;
     text-align: left;
 }
 
@@ -69,12 +70,14 @@ img.user {
 }
 
 span.job-title {
+    display: block;
     text-align: center;
     font-style: italic;
     font-size: 0.8em !important;
 }
 
 .author2 .contacts {
+    padding-top: 40px !important;
     text-align: right;
 }
 .reveal .contacts {
