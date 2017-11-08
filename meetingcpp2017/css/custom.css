@@ -52,8 +52,15 @@ img.user {
   background-size: cover;
 }
 .author1 .contacts {
-    padding-top: 40px !important;
+    padding-top: 5px !important;
     text-align: left;
+}
+
+.author1 .job-title {
+    padding-top: 20px !important;
+    text-align: left;
+    font-style: italic;
+    font-size: 0.8em !important;
 }
 
 .photo-block{
@@ -69,15 +76,15 @@ img.user {
     margin: -30px 0px !important;
 }
 
-span.job-title {
-    display: block;
-    text-align: center;
+.author2 .job-title {
+    padding-top: 20px !important;
+    text-align: right;
     font-style: italic;
     font-size: 0.8em !important;
 }
 
 .author2 .contacts {
-    padding-top: 40px !important;
+    padding-top: 5px !important;
     text-align: right;
 }
 .reveal .contacts {
