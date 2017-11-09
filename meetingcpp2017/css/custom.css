@@ -1,3 +1,7 @@
+.slides {
+    width: 965px !important;
+}
+
 .credits {
     display: block;
     width: auto;
