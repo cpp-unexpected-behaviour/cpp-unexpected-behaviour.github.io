@@ -352,30 +352,31 @@
                         <pre class="fragment"><code class="hljs cpp" data-trim data-noescape>
                         std::variant&ltint, bool, std::string&gt a = "Hello World!"s;
 
-                        // Now a has the expected type
+                        // Now we get the expected std::string type
                         </code></pre>
                         </textarea>
                     </section>
                 </section>
                 <section>
                     <h2>Overload resolution</h2>
-                    <section data-markdown>
-                        <textarea data-template>
-                        ```cpp
-                        #include <vector>
-                        #include <algorithm>
+                    <section>
+                        <pre><code class="hljs cpp" data-trim data-noescape>
+                        #include &lt;vector&gt;
+                        #include &lt;algorithm&gt;
 
                         bool isOne(int a) { return a == 1; }
                         bool isOne(double b) { return a == 1.0; }
 
                         int main()
                         {
-                            std::vector<int> my_vec{1,2,3,4};
+                            std::vector&lt;int&gt; my_vec{1,2,3,4};
                             // doesn't compile
                             std::find_if(my_vec.begin(), my_vec.end(), isOne);
                         }
-                        ```
-                        </textarea>
+                        </code></pre>
+                        <p style="font-size:12pt;padding-top: 200px;padding-left: 40px;">
+                            * <em>https://www.fluentcpp.com/2017/08/01/overloaded-functions-stl/</em>
+                        </p>
                     </section>
                     <section data-markdown>
                         <textarea data-template>
