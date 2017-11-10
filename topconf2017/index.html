@@ -131,7 +131,7 @@
                             virtual void balance() {
                                 std::cout << "Balance: " << accountBalance << std::endl;
                             }
-                        private:
+                        protected:
                             int accountBalance = 0;
                         };
                         <span class="fragment">
@@ -164,7 +164,7 @@
                                 std::cout << "Balance: " << accountBalance << std::endl;
                             }
                             <span class="fragment">virtual void paySalary() {}</span>
-                        private:
+                        protected:
                             int accountBalance = 0;
                         };
                         class EmployeeAccount : public Account {
