@@ -350,6 +350,7 @@
                             <li class="fragment">We can prevent this from happening by using C++14's string literals</li>
                         </ul>
                         <pre class="fragment"><code class="hljs cpp" data-trim data-noescape>
+                        using namespace std::string_literals;
                         std::variant&ltint, bool, std::string&gt a = "Hello World!"s;
 
                         // Now we get the expected std::string type
