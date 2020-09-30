@@ -1,5 +1,8 @@
+body{
+padding:o;
+}
 .slides {
-    width: 965px !important;
+    width: 960px !important;
 }
 
 .credits {
@@ -56,7 +59,7 @@ img.user {
   background-size: cover;
 }
 .author1 .contacts {
-    padding-top: 5px !important;
+    padding-top: 7px !important;
     text-align: left;
 }
 
@@ -93,7 +96,7 @@ img.user {
 }
 .reveal .contacts {
     line-height: 34px !important;
-    font-size: 24px !important;
+    font-size: 27px !important;
 }
 .reveal .contacts a {
     color: black;
